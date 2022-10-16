@@ -6,13 +6,13 @@ import { UserAuth } from '../context/AuthContext';
 const SignUp = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { user, signUp } = UserAuth();
+  const { signUp } = UserAuth();
   const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await signUp(email, password);
+      signUp(email, password);
       navigate('/')
     } catch (error) {
       console.log(error);

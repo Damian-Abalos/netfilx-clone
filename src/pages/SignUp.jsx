@@ -6,14 +6,21 @@ import { UserAuth } from '../context/AuthContext';
 const SignUp = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [passwordError, setPasswordError] = useState(''); // Estado para el mensaje de error
   const { signUp } = UserAuth();
   const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      if (password.length < 6) {
+        setPasswordError('La contraseña debe tener al menos 6 caracteres'); // Establece el mensaje de error
+        return; // Evita continuar con el registro
+      }
+      // Restablece el mensaje de error si la contraseña es válida
+      setPasswordError('');
       signUp(email, password);
-      navigate('/')
+      navigate('/');
     } catch (error) {
       console.log(error);
     }
@@ -32,6 +39,7 @@ const SignUp = () => {
             <div className='max-w-[320px] mx-auto py-16'>
               <h1 className='text-3xl font-bold'>Registrarse</h1>
               <form
+                id='myForm'
                 onSubmit={handleSubmit}
                 className='w-full flex flex-col py-4'
               >
@@ -46,9 +54,11 @@ const SignUp = () => {
                   onChange={(e) => setPassword(e.target.value)}
                   className='p-3 my-2 bg-gray-700 rouded'
                   type='password'
+                  id='password'
                   placeholder='Contraseña'
                   autoComplete='current-password'
                 />
+                <p id="passwordError">{passwordError}</p>
                 <button className='bg-red-600 py-3 my-6 rounded font-bold'>
                   Registrarse
                 </button>
